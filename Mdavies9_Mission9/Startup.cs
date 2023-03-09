@@ -32,6 +32,9 @@ namespace Mdavies9_Mission9
                 options.UseSqlite(Configuration["ConnectionStrings:BookDBConnection"]);
             }
             );
+            services.AddRazorPages();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,14 +45,35 @@ namespace Mdavies9_Mission9
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
-            {
+            {//Category{bookCat} see if this works in patterns
+                endpoints.MapControllerRoute("Catpage",
+                    "{bookCat}/Page{pageNum}",
+                    new { Controller = "Home", action = "Index" });
+
+
+                endpoints.MapControllerRoute(name: "Paging",
+                    pattern: "Page{pageNum}",
+                    defaults: new
+                    {
+                        Controller = "Home",
+                        action = "Index",
+                        pageNum = 1 
+                    });
+
+                endpoints.MapControllerRoute("Category",
+                    "{bookCat}",
+                    new { Controller = "Home", action = "Index", pageNum = 1 });
+
+                
+
                 endpoints.MapDefaultControllerRoute();
-               
+                endpoints.MapRazorPages();
             });
+
         }
     }
 }

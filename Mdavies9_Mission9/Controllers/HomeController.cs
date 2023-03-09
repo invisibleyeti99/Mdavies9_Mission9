@@ -13,15 +13,17 @@ namespace Mdavies9_Mission9.Controllers
         private BookstoreContext context { get; set;  }
       
         public HomeController(BookstoreContext x) => context = x;
-        public IActionResult Index( int pageNum = 1)
+        public IActionResult Index(string bookCat,  int pageNum = 1)
         {
             int NumResults = 10;
             var rx = new BooksVM
             {
-                Books = context.Books.OrderBy(x => x.Title).Skip((pageNum - 1) * NumResults).Take(NumResults),
+                Books = context.Books.OrderBy(x => x.Title).Skip((pageNum - 1) * NumResults)
+                .Take(NumResults).Where(x => x.Category == bookCat || bookCat == null),
                 PageInfo = new PageInfo
                 {
-                    TotalNumBooks = context.Books.Count(),
+                    
+                    TotalNumBooks = (bookCat == null ?context.Books.Count(): context.Books.Where(x=>x.Category == bookCat).Count()),
                     BooksPerPage = NumResults,
                     CurrPage = pageNum
                     
