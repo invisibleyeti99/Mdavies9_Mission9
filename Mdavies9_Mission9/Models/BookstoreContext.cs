@@ -1,4 +1,5 @@
 ﻿using System;
+using Mdavies9_Mission9.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,7 +21,7 @@ namespace Mdavies9_Mission9.Models
         }
 
         public virtual DbSet<Book> Books { get; set; }
-
+        public DbSet<StoreSales> StoreSales { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

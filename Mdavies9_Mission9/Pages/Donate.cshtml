@@ -19,9 +19,17 @@
         <tr>
             <td>@i.Book.Title</td>
             <td>@i.Quantity</td>
-            <td>@i.Book.Price</td>
-            <td>@Math.Round(i.Quantity* i.Book.Price,2)</td>
+            <td>@i.Book.Price.ToString("c")</td>
+            <td>@Math.Round(i.Quantity * i.Book.Price, 2).ToString("c")</td>
+            <td class="text-center">
+                <form method="post" asp-page-handler="Remove">
+                    <input type ="hidden" name="BookId" value="@i.Book.BookId"/>
+                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+                    <button type="submit" class="btn btn-primary">Remove </button>
+                </form>
+            </td>
         </tr>
+        
         }
         </tbody>
     <tfoot>
@@ -34,4 +42,5 @@
 
 <div>
     <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+    <a class="btn btn-primary" asp-action="Checkout" asp-controller="Sales">Checkout</a>
 </div>
